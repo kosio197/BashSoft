@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bg.softuni.contract.ContentComparer;
-import bg.softuni.exceptions.InvalidPathException;
+import bg.softuni.exception.InvalidPathException;
 import bg.softuni.io.OutputWriter;
 import bg.softuni.static_data.ExceptionMessages;
 

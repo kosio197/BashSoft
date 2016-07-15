@@ -9,7 +9,7 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 
 import bg.softuni.contract.AsynchDownloader;
-import bg.softuni.exceptions.InvalidPathException;
+import bg.softuni.exception.InvalidPathException;
 import bg.softuni.io.OutputWriter;
 import bg.softuni.static_data.SessionData;
 

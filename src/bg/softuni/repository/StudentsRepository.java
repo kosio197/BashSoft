@@ -17,8 +17,8 @@ import bg.softuni.contract.DataSorter;
 import bg.softuni.contract.Database;
 import bg.softuni.contract.Student;
 import bg.softuni.io.OutputWriter;
-import bg.softuni.models.SoftUniCourse;
-import bg.softuni.models.SoftUniStudent;
+import bg.softuni.model.SoftUniCourse;
+import bg.softuni.model.SoftUniStudent;
 import bg.softuni.static_data.ExceptionMessages;
 import bg.softuni.static_data.SessionData;
 

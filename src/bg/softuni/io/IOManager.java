@@ -5,8 +5,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import bg.softuni.contract.DirectoryManager;
-import bg.softuni.exceptions.InvalidFileNameException;
-import bg.softuni.exceptions.InvalidPathException;
+import bg.softuni.exception.InvalidFileNameException;
+import bg.softuni.exception.InvalidPathException;
 import bg.softuni.static_data.SessionData;
 
 public class IOManager implements DirectoryManager {
