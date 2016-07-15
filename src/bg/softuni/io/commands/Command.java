@@ -1,22 +1,23 @@
 package bg.softuni.io.commands;
 
+import bg.softuni.contract.AsynchDownloader;
+import bg.softuni.contract.ContentComparer;
+import bg.softuni.contract.Database;
+import bg.softuni.contract.DirectoryManager;
+import bg.softuni.contract.Executable;
 import bg.softuni.exceptions.InvalidCommandException;
-import bg.softuni.io.IOManager;
-import bg.softuni.judge.Tester;
-import bg.softuni.network.DownloadManager;
-import bg.softuni.repository.StudentsRepository;
 
-public abstract class Command {
+public abstract class Command implements Executable {
     private String input;
     private String [] data;
 
-    private StudentsRepository repository;
-    private Tester tester;
-    private IOManager ioManager;
-    private DownloadManager downloadManager;
+    private Database repository;
+    private ContentComparer tester;
+    private DirectoryManager ioManager;
+    private AsynchDownloader downloadManager;
 
-    protected Command(String input, String[] data, StudentsRepository repository,
-            Tester tester, IOManager ioManager, DownloadManager downloadManager) {
+    protected Command(String input, String[] data, Database repository,
+            ContentComparer tester, DirectoryManager ioManager, AsynchDownloader downloadManager) {
         setInput(input);
         setData(data);
 
@@ -29,6 +30,7 @@ public abstract class Command {
     protected abstract boolean validate();
     protected abstract void doExecute() throws Exception;
 
+    @Override
     public void execute() throws Exception {
         if(!validate()) {
             throw new InvalidCommandException(input);
@@ -61,19 +63,19 @@ public abstract class Command {
         this.data = data;
     }
 
-    protected StudentsRepository getRepository() {
+    protected Database getRepository() {
         return repository;
     }
 
-    protected Tester getTester() {
+    protected ContentComparer getTester() {
         return tester;
     }
 
-    protected IOManager getIoManager() {
+    protected DirectoryManager getIoManager() {
         return ioManager;
     }
 
-    protected DownloadManager getDownloadManager() {
+    protected AsynchDownloader getDownloadManager() {
         return downloadManager;
     }
 }

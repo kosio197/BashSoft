@@ -2,10 +2,15 @@ package bg.softuni.io;
 
 import java.io.IOException;
 
+import bg.softuni.contract.AsynchDownloader;
+import bg.softuni.contract.ContentComparer;
+import bg.softuni.contract.Database;
+import bg.softuni.contract.DirectoryManager;
+import bg.softuni.contract.Executable;
+import bg.softuni.contract.Interpreter;
 import bg.softuni.exceptions.InvalidCommandException;
 import bg.softuni.io.commands.ChangeAbsolutePathCommand;
 import bg.softuni.io.commands.ChangeRelativePathCommand;
-import bg.softuni.io.commands.Command;
 import bg.softuni.io.commands.CompareFilesCommand;
 import bg.softuni.io.commands.DownloadAsynchCommand;
 import bg.softuni.io.commands.DownloadFileCommand;
@@ -18,36 +23,35 @@ import bg.softuni.io.commands.PrintOrderedStudentsCommand;
 import bg.softuni.io.commands.ReadDatabaseCommand;
 import bg.softuni.io.commands.ShowCourseCommand;
 import bg.softuni.io.commands.TraverseFoldersCommand;
-import bg.softuni.judge.Tester;
-import bg.softuni.network.DownloadManager;
-import bg.softuni.repository.StudentsRepository;
 
-public class CommandInterpreter {
-    private Tester tester;
-    private StudentsRepository repository;
-    private DownloadManager downloadManager;
-    private IOManager ioManager;
+public class CommandInterpreter implements Interpreter {
+    private ContentComparer tester;
+    private Database repository;
+    private AsynchDownloader downloadManager;
+    private DirectoryManager ioManager;
 
-    public CommandInterpreter(Tester tester, StudentsRepository repository, DownloadManager downloadManager, IOManager ioManager) {
+    public CommandInterpreter(ContentComparer tester, Database repository, AsynchDownloader downloadManager,
+            DirectoryManager ioManager) {
         this.tester = tester;
         this.repository = repository;
         this.downloadManager = downloadManager;
         this.ioManager = ioManager;
     }
 
-    void interpretCommand(String input) {
+    @Override
+    public void interpretCommand(String input) {
         String[] data = input.split("\\s+");
         String commandName = data[0].toLowerCase();
 
         try {
-            Command command = parseCommand(input, data, commandName);
+            Executable command = parseCommand(input, data, commandName);
             command.execute();
         } catch (Throwable e) {
             OutputWriter.displayException(e.getMessage());
         }
     }
 
-    private Command parseCommand(String input, String [] data, String command) throws IOException {
+    private Executable parseCommand(String input, String [] data, String command) throws IOException {
         switch (command) {
         case "open": return new OpenFileCommand(input, data, repository, tester, ioManager, downloadManager);
         case "mkdir": return new MakeDirectoryCommand(input, data, repository, tester, ioManager, downloadManager);

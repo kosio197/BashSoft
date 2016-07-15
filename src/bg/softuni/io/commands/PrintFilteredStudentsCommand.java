@@ -1,17 +1,16 @@
 package bg.softuni.io.commands;
 
-import bg.softuni.io.IOManager;
+import bg.softuni.contract.AsynchDownloader;
+import bg.softuni.contract.ContentComparer;
+import bg.softuni.contract.Database;
+import bg.softuni.contract.DirectoryManager;
 import bg.softuni.io.OutputWriter;
-import bg.softuni.judge.Tester;
-import bg.softuni.network.DownloadManager;
-import bg.softuni.repository.StudentsRepository;
 import bg.softuni.static_data.ExceptionMessages;
 
 public class PrintFilteredStudentsCommand extends Command {
 
-    public PrintFilteredStudentsCommand(String input, String[] data,
-            StudentsRepository repository, Tester tester, IOManager ioManager,
-            DownloadManager downloadManager) {
+    public PrintFilteredStudentsCommand(String input, String[] data, Database repository,
+            ContentComparer tester, DirectoryManager ioManager, AsynchDownloader downloadManager) {
         super(input, data, repository, tester, ioManager, downloadManager);
     }
 

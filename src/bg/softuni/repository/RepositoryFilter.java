@@ -3,10 +3,12 @@ package bg.softuni.repository;
 import java.util.Map;
 import java.util.function.Predicate;
 
+import bg.softuni.contract.DataFilter;
 import bg.softuni.io.OutputWriter;
 import bg.softuni.static_data.ExceptionMessages;
 
-public class RepositoryFilter {
+public class RepositoryFilter implements DataFilter {
+    @Override
     public void printFilteredStudents(Map<String, Double> studentsWithMarks, String filterType, Integer numberOfStudents) {
         Predicate<Double> filter = createFilter(filterType);
 

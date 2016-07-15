@@ -9,13 +9,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import bg.softuni.contract.ContentComparer;
 import bg.softuni.exceptions.InvalidPathException;
 import bg.softuni.io.OutputWriter;
 import bg.softuni.static_data.ExceptionMessages;
 
-public class Tester {
+public class Tester implements ContentComparer {
 
-    public void compareContent(String actualOutput, String expectedOutput) throws IOException {
+    @Override
+    public void compareContent(String actualOutput, String expectedOutput) {
         try {
             OutputWriter.writeMessageOnNewLine("Reading files...");
             String mismatchPath = getMismatchPath(expectedOutput);

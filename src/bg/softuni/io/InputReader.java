@@ -3,18 +3,21 @@ package bg.softuni.io;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import bg.softuni.contract.Interpreter;
+import bg.softuni.contract.Reader;
 import bg.softuni.static_data.SessionData;
 
-public class InputReader {
+public class InputReader implements Reader {
 
     private static final String END_COMMAND = "quit";
 
-    private CommandInterpreter interpreter;
+    private Interpreter interpreter;
 
-    public InputReader(CommandInterpreter interpreter) {
+    public InputReader(Interpreter interpreter) {
         this.interpreter = interpreter;
     }
 
+    @Override
     public void readCommands() throws Exception {
         OutputWriter.writeMessage(String.format("%s > ", SessionData.currentPath));
 

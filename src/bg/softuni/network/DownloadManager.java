@@ -8,12 +8,14 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 
+import bg.softuni.contract.AsynchDownloader;
 import bg.softuni.exceptions.InvalidPathException;
 import bg.softuni.io.OutputWriter;
 import bg.softuni.static_data.SessionData;
 
-public class DownloadManager {
+public class DownloadManager implements AsynchDownloader {
 
+    @Override
     public void download(String fileUrl) {
         URL url;
         ReadableByteChannel rbc = null;
@@ -57,6 +59,7 @@ public class DownloadManager {
         }
     }
 
+    @Override
     public void downloadOnNewThread(String fileUrl) {
         Thread thread = new Thread(() -> download(fileUrl));
         thread.setDaemon(false);

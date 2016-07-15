@@ -12,35 +12,41 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import bg.softuni.contract.DataFilter;
+import bg.softuni.contract.DataSorter;
+import bg.softuni.contract.Database;
+import bg.softuni.contract.Student;
 import bg.softuni.io.OutputWriter;
-import bg.softuni.models.Course;
-import bg.softuni.models.Student;
+import bg.softuni.models.SoftUniCourse;
+import bg.softuni.models.SoftUniStudent;
 import bg.softuni.static_data.ExceptionMessages;
 import bg.softuni.static_data.SessionData;
 
-public class StudentsRepository {
+public class StudentsRepository implements Database {
     private boolean isDataInitialized = false;
-    private RepositoryFilter filter;
-    private RepositorySorter sorter;
-    private Map<String, Course> courses;
-    private Map<String, Student> students;
+    private DataFilter filter;
+    private DataSorter sorter;
+    private Map<String, SoftUniCourse> courses;
+    private Map<String, SoftUniStudent> students;
 
-    public StudentsRepository(RepositoryFilter filter, RepositorySorter sorter) {
+    public StudentsRepository(DataFilter filter, DataSorter sorter) {
         this.filter = filter;
         this.sorter = sorter;
     }
 
+    @Override
     public void loadData(String fileName) throws IOException {
         if (isDataInitialized) {
             throw new RuntimeException(ExceptionMessages.DATA_ALREADY_INITIALIZED);
         }
 
-        courses = new LinkedHashMap<String, Course>();
-        students = new HashMap<String, Student>();
+        courses = new LinkedHashMap<String, SoftUniCourse>();
+        students = new HashMap<String, SoftUniStudent>();
 
         readData(fileName);
     }
 
+    @Override
     public void unloadData() {
         if (!isDataInitialized) {
             throw new RuntimeException(ExceptionMessages.DATA_NOT_INITIALIZED);
@@ -82,21 +88,21 @@ public class StudentsRepository {
                         continue;
                     }
 
-                    if (scores.length > Course.NUMBER_OF_TASKS_ON_EXAM) {
+                    if (scores.length > SoftUniCourse.NUMBER_OF_TASKS_ON_EXAM) {
                         OutputWriter.displayException(ExceptionMessages.INVALID_NUMBER_OF_SCORES);
                         continue;
                     }
 
                     if (!students.containsKey(studentName)) {
-                        students.put(studentName, new Student(studentName));
+                        students.put(studentName, new SoftUniStudent(studentName));
                     }
 
                     if (!courses.containsKey(courseName)) {
-                        courses.put(courseName, new Course(courseName));
+                        courses.put(courseName, new SoftUniCourse(courseName));
                     }
 
-                    Course course = courses.get(courseName);
-                    Student student = students.get(studentName);
+                    SoftUniCourse course = courses.get(courseName);
+                    SoftUniStudent student = students.get(studentName);
                     student.enrollInCourse(course);
                     student.setMarksInCourse(courseName, scores);
                     course.enrollStudent(student);
@@ -110,6 +116,7 @@ public class StudentsRepository {
         OutputWriter.writeMessageOnNewLine("Data read.");
     }
 
+    @Override
     public void getStudentMarksInCourse(String courseName, String studentName) {
         if (!isQueryForStudentPossible(courseName, studentName)) {
             return;
@@ -119,6 +126,7 @@ public class StudentsRepository {
         OutputWriter.printStudent(studentName, mark);
     }
 
+    @Override
     public void getStudentsByCourse(String courseName) {
         if (!isQueryForCoursePossible(courseName)) {
             return;
@@ -158,11 +166,13 @@ public class StudentsRepository {
         return true;
     }
 
+    @Override
     public void filterAndTake(String courseName, String filter) {
         int studentsToTake = courses.get(courseName).getStudentsByName().size();
         filterAndTake(courseName, filter, studentsToTake);
     }
 
+    @Override
     public void filterAndTake(String courseName, String filter, int studentsToTake) {
         if (!isQueryForCoursePossible(courseName)) {
             return;
@@ -177,6 +187,7 @@ public class StudentsRepository {
         this.filter.printFilteredStudents(marks, filter, studentsToTake);
     }
 
+    @Override
     public void orderAndTake(String courseName, String orderType, int studentsToTake) {
         if (!isQueryForCoursePossible(courseName)) {
             return;
@@ -191,6 +202,7 @@ public class StudentsRepository {
         sorter.printSortedStudents(marks, orderType, studentsToTake);
     }
 
+    @Override
     public void orderAndTake(String courseName, String orderType) {
         if (!courses.containsKey(courseName)) {
             OutputWriter.displayException(ExceptionMessages.NON_EXISTING_COURSE);

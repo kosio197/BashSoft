@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import bg.softuni.contract.DataSorter;
 import bg.softuni.io.OutputWriter;
 import bg.softuni.static_data.ExceptionMessages;
 
-public class RepositorySorter {
+public class RepositorySorter implements DataSorter {
+    @Override
     public void printSortedStudents(Map<String, Double> studentsWithMarks, String comparisonType, int numberOfStudents) {
         comparisonType = comparisonType.toLowerCase();
 
