@@ -1,6 +1,6 @@
 # BashSoft
 
-The project is a bash (command interpreter) with the following commands:
+A project for Java Advanced, Java OOP Basics and Java OOP Advanced cources. This is a bash (command interpreter) with the following commands:
 
 make directory - mkdir nameOfFolder<br />
 traverse directory - ls depth<br />
