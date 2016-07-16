@@ -1,3 +1,5 @@
+# BashSoft
+
 The project is a bash (command interpreter) with the following commands:
 
 make directory - mkdir nameOfFolder<br />
