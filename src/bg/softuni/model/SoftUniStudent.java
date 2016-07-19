@@ -74,4 +74,14 @@ public class SoftUniStudent implements Student {
 
         return percentageOfSolvedExam * 4 + 2;
     }
+
+    @Override
+    public int compareTo(Student o) {
+        return getUsername().compareTo(o.getUsername());
+    }
+
+    @Override
+    public String toString() {
+        return getUsername();
+    }
 }

@@ -2,7 +2,7 @@ package bg.softuni.contract;
 
 import java.util.Map;
 
-public interface Student {
+public interface Student extends Comparable<Student> {
 
     String getUsername();
     void enrollInCourse(Course course);

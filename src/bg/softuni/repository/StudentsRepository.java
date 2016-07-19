@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -12,10 +13,13 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import bg.softuni.contract.Course;
 import bg.softuni.contract.DataFilter;
 import bg.softuni.contract.DataSorter;
 import bg.softuni.contract.Database;
+import bg.softuni.contract.SimpleOrderedBag;
 import bg.softuni.contract.Student;
+import bg.softuni.datastructures.SimpleSortedList;
 import bg.softuni.io.OutputWriter;
 import bg.softuni.model.SoftUniCourse;
 import bg.softuni.model.SoftUniStudent;
@@ -26,8 +30,8 @@ public class StudentsRepository implements Database {
     private boolean isDataInitialized = false;
     private DataFilter filter;
     private DataSorter sorter;
-    private Map<String, SoftUniCourse> courses;
-    private Map<String, SoftUniStudent> students;
+    private Map<String, Course> courses;
+    private Map<String, Student> students;
 
     public StudentsRepository(DataFilter filter, DataSorter sorter) {
         this.filter = filter;
@@ -40,8 +44,8 @@ public class StudentsRepository implements Database {
             throw new RuntimeException(ExceptionMessages.DATA_ALREADY_INITIALIZED);
         }
 
-        courses = new LinkedHashMap<String, SoftUniCourse>();
-        students = new HashMap<String, SoftUniStudent>();
+        courses = new LinkedHashMap<String, Course>();
+        students = new HashMap<String, Student>();
 
         readData(fileName);
     }
@@ -101,8 +105,9 @@ public class StudentsRepository implements Database {
                         courses.put(courseName, new SoftUniCourse(courseName));
                     }
 
-                    SoftUniCourse course = courses.get(courseName);
-                    SoftUniStudent student = students.get(studentName);
+                    Course course = courses.get(courseName);
+                    Student student = students.get(studentName);
+
                     student.enrollInCourse(course);
                     student.setMarksInCourse(courseName, scores);
                     course.enrollStudent(student);
@@ -211,5 +216,24 @@ public class StudentsRepository implements Database {
 
         int studentsToTake = courses.get(courseName).getStudentsByName().size();
         orderAndTake(courseName, orderType, studentsToTake);
+    }
+
+    @Override
+    public SimpleOrderedBag<Course> getAllCoursesSorted(Comparator<Course> cmp) {
+        SimpleOrderedBag<Course> courseSortedList = new SimpleSortedList<Course>(Course.class, cmp);
+
+        courseSortedList.addAll(courses.values());
+
+        return courseSortedList;
+    }
+
+    @Override
+    public SimpleOrderedBag<Student> getAllStudentsSorted(Comparator<Student> cmp) {
+        SimpleOrderedBag<Student> studentSortedList = new SimpleSortedList<Student>(Student.class, cmp);
+
+        studentSortedList.addAll(students.values());
+
+        return studentSortedList;
+
     }
 }

@@ -12,6 +12,7 @@ import bg.softuni.exception.InvalidCommandException;
 import bg.softuni.io.command.ChangeAbsolutePathCommand;
 import bg.softuni.io.command.ChangeRelativePathCommand;
 import bg.softuni.io.command.CompareFilesCommand;
+import bg.softuni.io.command.DisplayCommand;
 import bg.softuni.io.command.DownloadAsynchCommand;
 import bg.softuni.io.command.DownloadFileCommand;
 import bg.softuni.io.command.DropDatabaseCommand;
@@ -67,6 +68,7 @@ public class CommandInterpreter implements Interpreter {
         case "download": return new DownloadFileCommand(input, data, repository, tester, ioManager, downloadManager);
         case "downloadasynch": return new DownloadAsynchCommand(input, data, repository, tester, ioManager, downloadManager);
         case "dropdb": return new DropDatabaseCommand(input, data, repository, tester, ioManager, downloadManager);
+        case "display": return new DisplayCommand(input, data, repository, tester, ioManager, downloadManager);
 
         default: throw new InvalidCommandException(input);
         }

@@ -48,4 +48,14 @@ public class SoftUniCourse implements Course {
     public Map<String, Student> getStudentsByName() {
         return Collections.unmodifiableMap(studentsByName);
     }
+
+    @Override
+    public int compareTo(Course o) {
+        return getName().compareTo(o.getName());
+    }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }
