@@ -3,6 +3,11 @@ package bg.softuni.contract;
 import java.util.Collection;
 
 public interface SimpleOrderedBag<E extends Comparable<E>> extends Iterable<E> {
+
+    boolean remove(E element);
+
+    int capacity();
+
     void add(E element);
 
     void addAll(Collection<E> elements);

@@ -1,25 +1,27 @@
 package bg.softuni.io.command;
 
-import bg.softuni.contract.AsynchDownloader;
-import bg.softuni.contract.ContentComparer;
-import bg.softuni.contract.Database;
+import bg.softuni.annotation.Alias;
+import bg.softuni.annotation.Inject;
 import bg.softuni.contract.DirectoryManager;
 
+@Alias(value = "ls")
 public class TraverseFoldersCommand extends Command {
 
-    public TraverseFoldersCommand(String input, String[] data, Database repository,
-            ContentComparer tester, DirectoryManager ioManager, AsynchDownloader downloadManager) {
-        super(input, data, repository, tester, ioManager, downloadManager);
+    @Inject
+    private DirectoryManager ioManager;
+
+    public TraverseFoldersCommand(String input, String[] data) {
+        super(input, data);
     }
 
     @Override
     protected void doExecute() throws Exception {
         if (getData().length == 1) {
-            getIoManager().traverseDirectory(0);
+            this.ioManager.traverseDirectory(0);
         }
 
         if (getData().length == 2) {
-            getIoManager().traverseDirectory(Integer.valueOf(getData()[1]));
+            this.ioManager.traverseDirectory(Integer.valueOf(getData()[1]));
         }
     }
 

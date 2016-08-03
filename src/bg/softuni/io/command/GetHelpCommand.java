@@ -1,16 +1,13 @@
 package bg.softuni.io.command;
 
-import bg.softuni.contract.AsynchDownloader;
-import bg.softuni.contract.ContentComparer;
-import bg.softuni.contract.Database;
-import bg.softuni.contract.DirectoryManager;
+import bg.softuni.annotation.Alias;
 import bg.softuni.io.OutputWriter;
 
+@Alias(value = "help")
 public class GetHelpCommand extends Command {
 
-    public GetHelpCommand(String input, String[] data, Database repository,
-            ContentComparer tester, DirectoryManager ioManager, AsynchDownloader downloadManager) {
-        super(input, data, repository, tester, ioManager, downloadManager);
+    public GetHelpCommand(String input, String[] data) {
+        super(input, data);
     }
 
     @Override

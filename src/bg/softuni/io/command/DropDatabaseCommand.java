@@ -1,21 +1,23 @@
 package bg.softuni.io.command;
 
-import bg.softuni.contract.AsynchDownloader;
-import bg.softuni.contract.ContentComparer;
+import bg.softuni.annotation.Alias;
+import bg.softuni.annotation.Inject;
 import bg.softuni.contract.Database;
-import bg.softuni.contract.DirectoryManager;
 import bg.softuni.io.OutputWriter;
 
+@Alias(value = "dropdb")
 public class DropDatabaseCommand extends Command {
 
-    public DropDatabaseCommand(String input, String[] data, Database repository,
-            ContentComparer tester, DirectoryManager ioManager, AsynchDownloader downloadManager) {
-        super(input, data, repository, tester, ioManager, downloadManager);
+    @Inject
+    private Database repository;
+
+    public DropDatabaseCommand(String input, String[] data) {
+        super(input, data);
     }
 
     @Override
     protected void doExecute() throws Exception {
-        getRepository().unloadData();
+        this.repository.unloadData();
         OutputWriter.writeMessageOnNewLine("Database dropped!");
     }
 

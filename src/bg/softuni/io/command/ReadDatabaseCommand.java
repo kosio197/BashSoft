@@ -1,21 +1,23 @@
 package bg.softuni.io.command;
 
-import bg.softuni.contract.AsynchDownloader;
-import bg.softuni.contract.ContentComparer;
+import bg.softuni.annotation.Alias;
+import bg.softuni.annotation.Inject;
 import bg.softuni.contract.Database;
-import bg.softuni.contract.DirectoryManager;
 
+@Alias(value = "readdb")
 public class ReadDatabaseCommand extends Command {
 
-    public ReadDatabaseCommand(String input, String[] data, Database repository,
-            ContentComparer tester, DirectoryManager ioManager, AsynchDownloader downloadManager) {
-        super(input, data, repository, tester, ioManager, downloadManager);
+    @Inject
+    private Database repository;
+
+    public ReadDatabaseCommand(String input, String[] data) {
+        super(input, data);
     }
 
     @Override
     protected void doExecute() throws Exception {
         String fileName = getData()[1];
-        getRepository().loadData(fileName);
+        this.repository.loadData(fileName);
     }
 
     @Override

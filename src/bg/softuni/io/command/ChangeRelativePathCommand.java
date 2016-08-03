@@ -1,25 +1,27 @@
 package bg.softuni.io.command;
 
-import bg.softuni.contract.AsynchDownloader;
-import bg.softuni.contract.ContentComparer;
-import bg.softuni.contract.Database;
-import bg.softuni.contract.DirectoryManager;
+import bg.softuni.annotation.Alias;
+import bg.softuni.annotation.Inject;
+import bg.softuni.io.IOManager;
 
+@Alias(value = "cdrel")
 public class ChangeRelativePathCommand extends Command {
 
-    public ChangeRelativePathCommand(String input, String[] data, Database repository,
-            ContentComparer tester, DirectoryManager ioManager, AsynchDownloader downloadManager) {
-        super(input, data, repository, tester, ioManager, downloadManager);
+    @Inject
+    private IOManager IoManager;
+
+    public ChangeRelativePathCommand(String input, String[] data) {
+        super(input, data);
     }
 
     @Override
     protected void doExecute() throws Exception {
-        String relativePath = getData()[1];
-        getIoManager().changeCurrentDirRelativePath(relativePath);
+        String relativePath = super.getData()[1];
+        this.IoManager.changeCurrentDirRelativePath(relativePath);
     }
 
     @Override
     protected boolean validate() {
-        return getData().length == 2;
+        return super.getData().length == 2;
     }
 }

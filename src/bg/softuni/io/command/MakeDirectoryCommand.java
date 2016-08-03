@@ -1,25 +1,27 @@
 package bg.softuni.io.command;
 
-import bg.softuni.contract.AsynchDownloader;
-import bg.softuni.contract.ContentComparer;
-import bg.softuni.contract.Database;
+import bg.softuni.annotation.Alias;
+import bg.softuni.annotation.Inject;
 import bg.softuni.contract.DirectoryManager;
 
+@Alias(value = "mkdir")
 public class MakeDirectoryCommand extends Command {
 
-    public MakeDirectoryCommand(String input, String[] data, Database repository,
-            ContentComparer tester, DirectoryManager ioManager, AsynchDownloader downloadManager) {
-        super(input, data, repository, tester, ioManager, downloadManager);
+    @Inject
+    private DirectoryManager ioManager;
+
+    public MakeDirectoryCommand(String input, String[] data) {
+        super(input, data);
     }
 
     @Override
     protected void doExecute() throws Exception {
-        String folderName = getData()[1];
-        getIoManager().createDirectoryInCurrentFolder(folderName);
+        String folderName = super.getData()[1];
+        this.ioManager.createDirectoryInCurrentFolder(folderName);
     }
 
     @Override
     protected boolean validate() {
-        return getData().length == 2;
+        return super.getData().length == 2;
     }
 }

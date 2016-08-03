@@ -1,9 +1,5 @@
 package bg.softuni.io.command;
 
-import bg.softuni.contract.AsynchDownloader;
-import bg.softuni.contract.ContentComparer;
-import bg.softuni.contract.Database;
-import bg.softuni.contract.DirectoryManager;
 import bg.softuni.contract.Executable;
 import bg.softuni.exception.InvalidCommandException;
 
@@ -11,20 +7,11 @@ public abstract class Command implements Executable {
     private String input;
     private String [] data;
 
-    private Database repository;
-    private ContentComparer tester;
-    private DirectoryManager ioManager;
-    private AsynchDownloader downloadManager;
 
-    protected Command(String input, String[] data, Database repository,
-            ContentComparer tester, DirectoryManager ioManager, AsynchDownloader downloadManager) {
+    protected Command(String input, String[] data) {
         setInput(input);
         setData(data);
 
-        this.repository = repository;
-        this.tester = tester;
-        this.ioManager = ioManager;
-        this.downloadManager = downloadManager;
     }
 
     protected abstract boolean validate();
@@ -61,21 +48,5 @@ public abstract class Command implements Executable {
         }
 
         this.data = data;
-    }
-
-    protected Database getRepository() {
-        return repository;
-    }
-
-    protected ContentComparer getTester() {
-        return tester;
-    }
-
-    protected DirectoryManager getIoManager() {
-        return ioManager;
-    }
-
-    protected AsynchDownloader getDownloadManager() {
-        return downloadManager;
     }
 }

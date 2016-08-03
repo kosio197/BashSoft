@@ -1,22 +1,24 @@
 package bg.softuni.io.command;
 
-import bg.softuni.contract.AsynchDownloader;
-import bg.softuni.contract.ContentComparer;
+import bg.softuni.annotation.Alias;
+import bg.softuni.annotation.Inject;
 import bg.softuni.contract.Database;
-import bg.softuni.contract.DirectoryManager;
 import bg.softuni.io.OutputWriter;
 import bg.softuni.static_data.ExceptionMessages;
 
+@Alias(value = "filter")
 public class PrintFilteredStudentsCommand extends Command {
 
-    public PrintFilteredStudentsCommand(String input, String[] data, Database repository,
-            ContentComparer tester, DirectoryManager ioManager, AsynchDownloader downloadManager) {
-        super(input, data, repository, tester, ioManager, downloadManager);
+    @Inject
+    private Database repository;
+
+    public PrintFilteredStudentsCommand(String input, String[] data) {
+        super(input, data);
     }
 
     @Override
     protected void doExecute() throws Exception {
-        String [] data = getData();
+        String[] data = super.getData();
 
         String course = data[1];
         String filter = data[2].toLowerCase();
@@ -33,13 +35,13 @@ public class PrintFilteredStudentsCommand extends Command {
         }
 
         if (takeQuantity.equals("all")) {
-            getRepository().filterAndTake(courseName, filter);
+            this.repository.filterAndTake(courseName, filter);
             return;
         }
 
         try {
             int studentsToTake = Integer.parseInt(takeQuantity);
-            getRepository().filterAndTake(courseName, filter, studentsToTake);
+            this.repository.filterAndTake(courseName, filter, studentsToTake);
         } catch (NumberFormatException nfe) {
             OutputWriter.displayException(ExceptionMessages.IVALID_TAKE_QUANTITY_PARAMETER);
         }

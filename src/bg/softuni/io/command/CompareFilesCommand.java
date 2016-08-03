@@ -1,15 +1,17 @@
 package bg.softuni.io.command;
 
-import bg.softuni.contract.AsynchDownloader;
+import bg.softuni.annotation.Alias;
+import bg.softuni.annotation.Inject;
 import bg.softuni.contract.ContentComparer;
-import bg.softuni.contract.Database;
-import bg.softuni.contract.DirectoryManager;
 
+@Alias(value = "cmp")
 public class CompareFilesCommand extends Command {
 
-    public CompareFilesCommand(String input, String[] data, Database repository,
-            ContentComparer tester, DirectoryManager ioManager, AsynchDownloader downloadManager) {
-        super(input, data, repository, tester, ioManager, downloadManager);
+    @Inject
+    private ContentComparer tester;
+
+    public CompareFilesCommand(String input, String[] data) {
+        super(input, data);
     }
 
     @Override
@@ -17,7 +19,7 @@ public class CompareFilesCommand extends Command {
         String firstPath = getData()[1];
         String secondPath = getData()[2];
 
-        getTester().compareContent(firstPath, secondPath);
+        this.tester.compareContent(firstPath, secondPath);
     }
 
     @Override

@@ -1,17 +1,19 @@
 package bg.softuni.io.command;
 
-import bg.softuni.contract.AsynchDownloader;
-import bg.softuni.contract.ContentComparer;
+import bg.softuni.annotation.Alias;
+import bg.softuni.annotation.Inject;
 import bg.softuni.contract.Database;
-import bg.softuni.contract.DirectoryManager;
 import bg.softuni.io.OutputWriter;
 import bg.softuni.static_data.ExceptionMessages;
 
+@Alias(value = "order")
 public class PrintOrderedStudentsCommand extends Command {
 
-    public PrintOrderedStudentsCommand(String input, String[] data, Database repository,
-            ContentComparer tester, DirectoryManager ioManager, AsynchDownloader downloadManager) {
-        super(input, data, repository, tester, ioManager, downloadManager);
+    @Inject
+    private Database repository;
+
+    public PrintOrderedStudentsCommand(String input, String[] data) {
+        super(input, data);
     }
 
     @Override
@@ -34,13 +36,13 @@ public class PrintOrderedStudentsCommand extends Command {
         }
 
         if (takeQuantity.equals("all")) {
-            getRepository().orderAndTake(courseName, orderType);
+            this.repository.orderAndTake(courseName, orderType);
             return;
         }
 
         try {
             int studentsToTake = Integer.parseInt(takeQuantity);
-            getRepository().orderAndTake(courseName, orderType, studentsToTake);
+            this.repository.orderAndTake(courseName, orderType, studentsToTake);
         } catch (NumberFormatException nfe) {
             OutputWriter.displayException(ExceptionMessages.IVALID_TAKE_QUANTITY_PARAMETER);
         }

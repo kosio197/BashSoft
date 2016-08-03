@@ -1,15 +1,17 @@
 package bg.softuni.io.command;
 
-import bg.softuni.contract.AsynchDownloader;
-import bg.softuni.contract.ContentComparer;
-import bg.softuni.contract.Database;
-import bg.softuni.contract.DirectoryManager;
+import bg.softuni.annotation.Alias;
+import bg.softuni.annotation.Inject;
+import bg.softuni.io.IOManager;
 
+@Alias(value = "cdabs")
 public class ChangeAbsolutePathCommand extends Command {
 
-    public ChangeAbsolutePathCommand(String input, String[] data, Database repository,
-            ContentComparer tester, DirectoryManager ioManager, AsynchDownloader downloadManager) {
-        super(input, data, repository, tester, ioManager, downloadManager);
+    @Inject
+    private IOManager IoManager;
+
+    public ChangeAbsolutePathCommand(String input, String[] data) {
+        super(input, data);
     }
 
     @Override
@@ -20,6 +22,6 @@ public class ChangeAbsolutePathCommand extends Command {
     @Override
     protected void doExecute() throws Exception {
         String absolutePath = getData()[1];
-        getIoManager().changeCurrentDirAbsolutePath(absolutePath);
+        this.IoManager.changeCurrentDirAbsolutePath(absolutePath);
     }
 }

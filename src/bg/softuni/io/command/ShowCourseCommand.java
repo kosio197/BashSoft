@@ -1,15 +1,17 @@
 package bg.softuni.io.command;
 
-import bg.softuni.contract.AsynchDownloader;
-import bg.softuni.contract.ContentComparer;
+import bg.softuni.annotation.Alias;
+import bg.softuni.annotation.Inject;
 import bg.softuni.contract.Database;
-import bg.softuni.contract.DirectoryManager;
 
+@Alias(value = "show")
 public class ShowCourseCommand extends Command {
 
-    public ShowCourseCommand(String input, String[] data, Database repository,
-            ContentComparer tester, DirectoryManager ioManager, AsynchDownloader downloadManager) {
-        super(input, data, repository, tester, ioManager, downloadManager);
+    @Inject
+    private Database repository;
+
+    public ShowCourseCommand(String input, String[] data) {
+        super(input, data);
     }
 
     @Override
@@ -18,13 +20,13 @@ public class ShowCourseCommand extends Command {
 
         if (data.length == 2) {
             String courseName = data[1];
-            getRepository().getStudentsByCourse(courseName);
+            this.repository.getStudentsByCourse(courseName);
         }
 
         if (data.length == 3) {
             String courseName = data[1];
             String userName = data[2];
-            getRepository().getStudentMarksInCourse(courseName, userName);
+            this.repository.getStudentMarksInCourse(courseName, userName);
         }
     }
 
