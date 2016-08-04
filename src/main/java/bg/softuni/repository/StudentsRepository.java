@@ -19,7 +19,7 @@ import bg.softuni.contract.DataSorter;
 import bg.softuni.contract.Database;
 import bg.softuni.contract.SimpleOrderedBag;
 import bg.softuni.contract.Student;
-import bg.softuni.datastructures.SimpleSortedList;
+import bg.softuni.data_structures.SimpleSortedList;
 import bg.softuni.io.OutputWriter;
 import bg.softuni.model.SoftUniCourse;
 import bg.softuni.model.SoftUniStudent;

@@ -15,4 +15,5 @@ public interface SimpleOrderedBag<E extends Comparable<E>> extends Iterable<E> {
     int size();
 
     String joinWith(String joiner);
+
 }

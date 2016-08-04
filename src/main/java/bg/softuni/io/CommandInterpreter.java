@@ -16,7 +16,7 @@ import bg.softuni.contract.Interpreter;
 
 public class CommandInterpreter implements Interpreter {
 
-    private static final String COMMAND_LOCATION = "src/bg/softuni/io/command";
+    private static final String COMMAND_LOCATION = "src/main/java/bg/softuni/io/command";
     private static final String COMMAND_PAKAGE = "bg.softuni.io.command.";
 
     @SuppressWarnings("unused")

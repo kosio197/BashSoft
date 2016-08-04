@@ -2,22 +2,23 @@ package bg.softuni.io.command;
 
 import java.util.Comparator;
 
-import bg.softuni.contract.AsynchDownloader;
-import bg.softuni.contract.ContentComparer;
+import bg.softuni.annotation.Alias;
+import bg.softuni.annotation.Inject;
 import bg.softuni.contract.Course;
 import bg.softuni.contract.Database;
-import bg.softuni.contract.DirectoryManager;
 import bg.softuni.contract.SimpleOrderedBag;
 import bg.softuni.contract.Student;
 import bg.softuni.exception.InvalidCommandException;
 import bg.softuni.io.OutputWriter;
 
+@Alias(value = "display")
 public class DisplayCommand extends Command {
 
-    public DisplayCommand(String input, String[] data, Database repository,
-            ContentComparer tester, DirectoryManager ioManager,
-            AsynchDownloader downloadManager) {
-        super(input, data, repository, tester, ioManager, downloadManager);
+    @Inject
+    private Database repository;
+
+    public DisplayCommand(String input, String[] data) {
+        super(input, data);
     }
 
     @Override
@@ -34,11 +35,11 @@ public class DisplayCommand extends Command {
 
         if (entiryToDisplay.equalsIgnoreCase("students")) {
             Comparator<Student> studentComparator = createComparator(sortType);
-            SimpleOrderedBag<Student> list = getRepository().getAllStudentsSorted(studentComparator);
+            SimpleOrderedBag<Student> list = this.repository.getAllStudentsSorted(studentComparator);
             OutputWriter.writeMessageOnNewLine(list.joinWith(System.lineSeparator()));
         } else if (entiryToDisplay.equalsIgnoreCase("courses")) {
             Comparator<Course> courseComparator = createComparator(sortType);
-            SimpleOrderedBag<Course> list = getRepository().getAllCoursesSorted(courseComparator);
+            SimpleOrderedBag<Course> list = this.repository.getAllCoursesSorted(courseComparator);
             OutputWriter.writeMessageOnNewLine(list.joinWith(System.lineSeparator()));
         } else {
             throw new InvalidCommandException(getInput());

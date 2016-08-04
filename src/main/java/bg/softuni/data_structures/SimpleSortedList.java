@@ -1,4 +1,4 @@
-package bg.softuni.datastructures;
+package bg.softuni.data_structures;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -53,6 +53,10 @@ public class SimpleSortedList<E extends Comparable<E>> implements SimpleOrderedB
 
     @Override
     public void add(E element) {
+        if (element == null) {
+            throw new IllegalArgumentException();
+        }
+
         if (size == innerCollection.length) {
             resize();
         }
@@ -63,11 +67,19 @@ public class SimpleSortedList<E extends Comparable<E>> implements SimpleOrderedB
 
     @Override
     public void addAll(Collection<E> elements) {
+
+        if (elements == null) {
+            throw new IllegalArgumentException();
+        }
+
         if (size + elements.size() >= innerCollection.length) {
             multiResize(elements);
         }
 
         for (E element : elements) {
+            if (element == null) {
+                throw new IllegalArgumentException();
+            }
             innerCollection[size++] = element;
         }
 
@@ -81,6 +93,10 @@ public class SimpleSortedList<E extends Comparable<E>> implements SimpleOrderedB
 
     @Override
     public String joinWith(String joiner) {
+        if (joiner == null) {
+            throw new IllegalArgumentException();
+        }
+
         StringBuilder output = new StringBuilder();
 
         for (E e : this) {
@@ -118,6 +134,39 @@ public class SimpleSortedList<E extends Comparable<E>> implements SimpleOrderedB
         E[] newCollection = Arrays.copyOf(innerCollection, newSize);
 
         innerCollection = newCollection;
+    }
+
+    @Override
+    public boolean remove(E element) {
+        if (element == null) {
+            throw new IllegalArgumentException();
+        }
+
+        boolean hasBeenRemoved = false;
+        int indexOfRemovedElement = 0;
+
+        for (int i = 0; i < size; i++) {
+            if (innerCollection[i].compareTo(element) == 0) {
+                hasBeenRemoved = true;
+                indexOfRemovedElement = i;
+                innerCollection[i] = null;
+                break;
+            }
+        }
+
+        if (hasBeenRemoved) {
+            for (int i = indexOfRemovedElement; i < innerCollection.length - 1; i++) {
+                innerCollection[i] = innerCollection[i + 1];
+            }
+            innerCollection[--size] = null;
+        }
+
+        return hasBeenRemoved;
+    }
+
+    @Override
+    public int capacity() {
+        return this.innerCollection.length;
     }
 
 }
