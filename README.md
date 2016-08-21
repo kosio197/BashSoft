@@ -2,7 +2,7 @@
 
 A project for Java Advanced, Java OOP Basics and Java OOP Advanced cources. It shows the usage of: OOP fundametals, common design patterns, dependency injection.
 
-# Description
+## Description
 This is a bash (command interpreter) with the following commands:
 
 make directory - mkdir nameOfFolder<br />
